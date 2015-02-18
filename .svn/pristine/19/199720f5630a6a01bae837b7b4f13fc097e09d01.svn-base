@@ -1,0 +1,26 @@
+# This test file confirms that working well on two or more edges
+# Between two nodes
+# Create a graph
+CreateGraph graph1
+
+# Add nodes 
+AddNode graph1 n1
+AddNode graph1 n2
+AddNode graph1 n3
+AddNode graph1 n4
+
+# Add edges
+AddEdge graph1 n1 n2 e1
+AddEdge graph1 n1 n2 e2
+AddEdge graph1 n1 n2 e3
+AddEdge graph1 n2 n3 e4
+AddEdge graph1 n2 n3 e5
+AddEdge graph1 n3 n4 e6
+AddEdge graph1 n4 n3 e7
+
+# List the nodes in graph
+ListNodes graph1
+ListChildren graph1 n1
+ListChildren graph1 n2
+ListChildren graph1 n3
+ListChildren graph1 n4

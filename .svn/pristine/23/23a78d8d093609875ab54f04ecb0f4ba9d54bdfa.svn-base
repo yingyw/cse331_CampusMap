@@ -1,0 +1,19 @@
+//Yingying Wang
+//CSE331 HW4
+//SECTION AB
+a. We should include checkRep at the end of constructor. Because ratTerm is immutable,  we only need to check it once a new object is created as well as the fields are initialized. When we create a new object, all of fields are final, this means we would not able to change it after creating a object. So it's unnecessary to check rep after creating a new object.
+b.  Methods or constructor needed to be changed
+	1. Constructor: the part checking coefficient is 0 or not should be deleted, less complex
+	2. toString Method: need to add code to check whether the coefficient is zero or not, more complex
+	3. checkRep: he part checking coefficient is 0 or not should be deleted, less complex
+	4. equals: need to add code to check whether the coefficient is zero or not, more complex
+	5. hashCode: need to check coefficient zero or not before return statement, more complex
+c. Methods or constructor needed to be changed
+   1. Constructor: adding part to check the coefficient is NaN or not, more complex
+   2. checkRep: adding part to check the coefficient is NaN or not, more complex
+   3. toString: the first if statement should be deleted because NaN terms will verify exp=0 and return string will be "NaN", less complex
+   4. hashCode: the first if statement should be deleted because exp=0 is verified by NaN terms, less complex
+   5. equals: don't need to test (this.isNaN() && rt.isNaN()) because exp=0 has been verified by NaN terms, less complex
+   Both invariants are prefer, because it both invariants cost almost same complexity. No one cause much more complexity than the other.
+	
+ 

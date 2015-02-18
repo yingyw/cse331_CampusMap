@@ -1,0 +1,124 @@
+package hw7;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Scanner;
+import java.util.Set;
+
+import hw5.Graph;
+import hw6.MarvelPaths;
+
+public class MarvelPaths2 extends MarvelPaths {
+	private static final int INITIAL_CAPACITY = 100;
+	public static void main(String[] args) throws Exception {
+		Graph<String, Double> graph = new Graph<String, Double>();
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter the name of Marvel file");
+		String fileName = sc.nextLine();
+		graph = loadGraph(fileName);
+		System.out.println("Starting character");
+		String startChar = sc.nextLine();
+		System.out.println("Ending character");
+		String endChar = sc.nextLine();
+		String start = startChar.replace('_', ' '); //replace all _ in commands with space
+		String end = endChar.replace('_', ' ');
+		if (!graph.containsNode(start) || !graph.containsNode(end)) {
+			if (!graph.containsNode(start)) {
+				System.out.println("unknown character " + startChar); // if given start node is node not inside graph
+			}														  // print it out to claim that's unknown character
+			if (!graph.containsNode(end)) {
+				System.out.println("unknown character " + endChar);
+			}
+		} else {
+			System.out.println("path from " + start + " to " + end + ":");
+			List<String> paths = MarvelPaths2.findPath(graph, start, end);
+			double totalCost = 0.0;
+		  	  if (paths == null) 
+		  		  System.out.print("no path found");
+		    	  else{
+		  		  for(int i=2; i<paths.size();i++){
+		  			System.out.print(paths.get(i-1));
+		  			System.out.print(" to ");
+		  			System.out.print(paths.get(i));
+		  			  //output.print(" via ");
+		  			  Set<Double> labels = graph.getAllLabels(paths.get(i-1), paths.get(i));
+		  			  Double doubleEdge = labels.iterator().next();
+		  			  //double doubleEdge = Double.parseDouble(label);
+		  			  totalCost += doubleEdge;
+		  			System.out.print(String.format(" with weight %.3f", doubleEdge));
+		  			System.out.println();
+		  		  }
+		  		System.out.println(String.format("total cost: %.3f", totalCost));
+		}
+		sc.close();
+		}
+	}
+	
+	public static Graph<String,Double> loadGraph(String fileName){
+		Graph<String, Double> loadedGraph = new Graph<String, Double>();
+		Graph<String, String> oldGraph = MarvelPaths.buildGraph(fileName);
+		for(String start :oldGraph.getAllNodes()){
+			loadedGraph.addNode(start);
+			for(String end: oldGraph.getAllEnds(start)){
+				loadedGraph.addNode(end);
+				int numLabel = oldGraph.EdgeNumbers(start, end);
+				loadedGraph.addEdge(start, end, (double) 1/numLabel);
+			}
+		}
+		return loadedGraph;
+	}
+	
+	public static List<String> findPath(Graph<String, Double> graph, String start, String end){
+		if(!graph.containsNode(start)||!graph.containsNode(end)){
+			throw new IllegalArgumentException();
+		}
+		Queue<List<String>> active = new PriorityQueue<List<String>>(INITIAL_CAPACITY, new Comparator<List<String>>(){
+					@Override
+					public int compare(List<String> route1, List<String> route2){
+						double r1 = Double.parseDouble(route1.get(0));
+						double r2 = Double.parseDouble(route2.get(0));
+						return Double.compare(r1,r2);
+					}
+					});
+		Set<String> finished = new HashSet<String>();
+		List<String> initial = new ArrayList<String>();
+		String zero = ""+0;
+		initial.add(zero);
+		initial.add(start);
+		active.add(initial);
+		while(!active.isEmpty()){
+			List<String> minPath = active.remove();
+			String minDest = minPath.get(minPath.size()-1);
+			//System.out.print(minDest);
+			if(minDest.equals(end)){
+				return minPath;
+			}
+			if(finished.contains(minDest)){
+				continue;
+			}
+			Set<String> children = graph.getAllEnds(minDest);
+			if(children!=null){
+				for(String child: children){
+					if(!finished.contains(child)){
+						double cost = graph.getAllLabels(minDest, child).iterator().next();
+						//double cost = Double.parseDouble(costString);
+						double lastCost = Double.parseDouble(minPath.get(0));
+						List<String> newPath = new ArrayList<String>();
+						for(String path: minPath){
+							newPath.add(path);
+						}
+						newPath.set(0,cost+lastCost+"");
+						newPath.add(child);
+						active.add(newPath);
+					}
+				}
+				finished.add(minDest);
+			}
+		}
+		return null;
+	}
+}

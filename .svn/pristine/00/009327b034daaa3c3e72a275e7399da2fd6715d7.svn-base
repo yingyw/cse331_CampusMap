@@ -1,0 +1,118 @@
+package hw8;
+
+import hw5.Graph;
+import hw7.MarvelPaths2;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+/**
+ * The UWMap represents the searching library from the UW building's short name to
+ * its corresponding full name, and searching library from UW building's short name
+ * to its corresponding coordinate, and graph includes the cost of path from start node
+ * to end node
+ */
+public class UWMap {
+	public static final String buildingFile = "src/hw8/data/campus_buildings.dat";
+	public static final String pathsFile = "src/hw8/data/campus_paths.dat";
+	public Map<String, String> buildingsName;
+	public Map<String, Node> nameToPos;
+	public Graph<Node, Double> graph;
+	
+	public UWMap() throws Exception{
+		buildingsName = new TreeMap<String, String>();
+		nameToPos = new HashMap<String, Node>();
+		graph = new Graph<Node, Double>();
+		BuildingParser.parseData(buildingFile, buildingsName, nameToPos);
+		try{
+			BuildingParser.parseData(buildingFile, buildingsName, nameToPos);
+			loadGraph();
+		}catch(Exception e){
+			e.printStackTrace();
+		}			
+	}
+	
+	/**
+	 * Helper method helps to load data from path parser to graph.
+	 * 
+	 * @throws Exception if given data is not in specified format.
+	 */
+	private void loadGraph() throws Exception {
+		Map<Node, Map<Node,Double>> map = new HashMap<Node, Map<Node,Double>>();
+		PathsPaser.parseData(pathsFile, map);
+		for(Node start: map.keySet()){
+			graph.addNode(start);
+			for(Node end: map.get(start).keySet()){
+				graph.addNode(end);
+				graph.addEdge(start, end, map.get(start).get(end));
+			}
+		}
+	}
+	
+	/**
+	 * Returns a map that every short name map to its corresponding full name
+	 * 
+	 * @return a map that every short name map to its corresponding full name
+	 */
+	public Map<String,String> allBuildings(){
+		Map<String,String> copy = new TreeMap<String,String>();
+		copy.putAll(buildingsName);
+		return copy;
+	}
+
+	/**
+	 * Find the shortest path from given start node to given end node
+	 * returns the path in list format
+	 * @param start start node of found path
+	 * @param end end node of found path
+	 * @return a list of node includes all passed node in the path
+	 */
+	public List<Node> findPath(String start, String end){
+		List<Node> result=null;
+		if(!nameToPos.containsKey(start)||!nameToPos.containsKey(end)){
+			if(!nameToPos.containsKey(start)){
+				System.out.println("Unknown building: "+start);
+			}
+			if(!nameToPos.containsKey(end)){
+				System.out.println("Unknown building: "+end);
+			}
+		}else{
+			Node startCoor = nameToPos.get(start);
+			Node endCoor = nameToPos.get(end);
+			result = MarvelPaths2.findPath(graph, startCoor, endCoor);
+		}
+		return result;
+		
+	}
+	
+	/**
+	 * Get direction of path from given start node to end node
+	 * returns the direction
+	 * @param start start node of path direction
+	 * @param end end node of path direction
+	 * @return a String represents the direction
+	 */
+	public String getDirection(Node start, Node end){
+		double xDiff = end.x-start.x;
+		double yDiff = start.y-end.y;
+		double angle = Math.atan2(yDiff, xDiff)/Math.PI;
+		if(angle > (7.0 / 8.0) || angle < (-7.0/8.0)){
+			return "W";
+		}else if(angle < -5.0 / 8.0){
+			return "SW";
+		}else if(angle < -3.0 / 8.0 ){
+			return "S";
+		}else if(angle < -1.0 / 8.0){
+			return "SE";
+		}else if(angle < 1.0 / 8.0){
+			return "E";
+		}else if(angle < 3.0 / 8.0){
+			return "NE";
+		}else if(angle < 5.0 /8.0){
+			return "N";
+		}else{
+			return "NW";
+		}
+	} 
+}

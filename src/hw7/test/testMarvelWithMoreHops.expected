@@ -1,0 +1,9 @@
+# Find a path with three "hop" (edge) using the full Marvel dataset.
+
+loaded graph marvel
+
+path from HUMAN ROBOT to STACY, HELEN:
+HUMAN ROBOT to CAPTAIN AMERICA with weight 0.500
+CAPTAIN AMERICA to SPIDER-MAN/PETER PAR with weight 0.007
+SPIDER-MAN/PETER PAR to STACY, HELEN with weight 1.000
+total cost: 1.507

@@ -1,0 +1,20 @@
+ Yingying Wang
+ 1127423
+ Section AB
+Documentation:
+
+Implementation Test:
+1. test exception: We need to test when we really pass null into method, after checking representation invariant, whether it throws exception or not.
+2. test empty case: empty case is a usual boundary case we need to test. Such like method getAllNodes, we need to test it whether return a empty set if the graph is empty and no node inside. Similarly, we need to check empty case when there is case that graph can be empty.
+3. test one element case: to test basic function of method, whether works when basically.
+4. test duplicate case: Sometimes we don't want duplicate appears after calling method, so we need to check whether duplicate case works. Like we don't allow graph contains two nodes with same name, so we need to add nodes with same name several times and test whether there still be only one node inside graph.
+5  test multiple case: 	After testing duplicate case, we want to check whether multiple case works. Such like we add several unique nodes into graph, and check whether added node is inside graph. This avoid method only works for one element case.
+6. test repeated case: We want to check whether method works after adding repeated cases. Such like we addNode n1 n2 n3, and then continue n1 n2 n3 for several times to check whether it works.
+7. test special case: Some special case is written in method. Such like when we remove a node x, all edges related to it must be deleted. We should not only check whether deleted node in side, and check the edges related to it is inside or not.And when we remove a edge between two nodes and there is only one edge between before, we need to make label list of these two nodes to be empty.  
+
+Specification Test:
+I include four specification tests. 
+First one is given by example.
+Second one to test addEdge, to test if we can add on edge between two nodes, and if one node can have more than one child to a node.
+Third one is to test addNode, to test if we can add node into graph, and if we can add node to different graph.
+forth one is to test add many edges with different labels between two nodes.

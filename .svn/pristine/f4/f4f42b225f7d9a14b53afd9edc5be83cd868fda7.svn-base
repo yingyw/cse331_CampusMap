@@ -1,0 +1,50 @@
+package hw8;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+public class PathsPaser {
+	public static void parseData(String filename, Map<Node,Map<Node,Double>> paths)
+			throws Exception {
+		BufferedReader reader = null;
+		try {
+			reader = new BufferedReader(new FileReader(filename));
+			String inputLine = reader.readLine();
+			String start = inputLine;
+			String[] tokens = start.split(",");
+			Node startNode = new Node(Double.parseDouble(tokens[0]), Double.parseDouble(tokens[1]));
+			paths.put(startNode, new HashMap<Node,Double>());
+			while ((inputLine = reader.readLine()) != null) {
+				if(!inputLine.startsWith("\t")){
+					start = inputLine;
+					tokens = start.split(",");
+					if(tokens.length!=2){
+						throw new Exception();
+					}
+					startNode = new Node(Double.parseDouble(tokens[0]), Double.parseDouble(tokens[1]));
+					paths.put(startNode, new HashMap<Node,Double>());
+				}else{
+					tokens = inputLine.split(":");
+					if(tokens.length!=2){
+						throw new Exception();
+					}
+					String end = tokens[0].trim();
+					String[] split = end.split(",");
+					Node endNode = new Node(Double.parseDouble(split[0]),Double.parseDouble(split[1]));
+					paths.get(startNode).put(endNode, Double.parseDouble(tokens[1]));
+					
+				}				
+			}
+		} catch (IOException e) {
+			System.err.println(e.toString());
+			e.printStackTrace(System.err);
+		} finally {
+			if (reader != null) {
+				reader.close();
+			}
+		}
+	}
+}

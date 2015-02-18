@@ -1,0 +1,9 @@
+#Find a path from a student to another student using the full studentsInClass dataset.
+
+loaded graph studentsInClass
+
+path from YINGYING to BILL:
+YINGYING to XINYI with weight 1.000
+XINYI to ELLE with weight 1.000
+ELLE to BILL with weight 1.000
+total cost: 3.000

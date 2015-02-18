@@ -1,0 +1,16 @@
+ Yingying Wang
+ 1127423
+ Section AB
+I used HashMap<String, HashMap<String, ArrayList<String>> to represent my graph. Because hashMap has put and remove operations so it would be convenient for us to add node and remove node to graph.
+
+I used String to represent my node, every node has its own String name. And I use this String as key of the outer hashMap.
+
+For the value mapped to each key, I used another map. For this internal map, I use another String node as key, this represents end point of edge that start from start node, which is the key of outer hashMap that mapped to.
+
+And for the value of internal hashMap, I used a Array list to store all edge numbers from two nodes. Every edge has its own label,which is a String. And there can be more than one edges between two nodes. But for these edges between same two nodes, their label must be unique. And there might be a edge start from a node and end in same node.
+
+For choosing this method, we don't need to add other class such like edge class to store start point and end point. It's really easy to find the edges between two nodes and labels of these nodes: just use graph.get(start).get(end) to get a list of labels of edges that start from start node to end node.
+
+The advantage of using a collection of edges is that it's easier to implement and traverse all edges, save space
+The advantage of using adjacent list is saving space, takes shorter time to add edge and vertex
+The advantage of using adjacent matrix is this it's easier to find the edges between nodes and to do other operations like finding shortest path

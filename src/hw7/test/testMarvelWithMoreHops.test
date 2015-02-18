@@ -1,0 +1,5 @@
+# Find a path with three "hop" (edge) using the full Marvel dataset.
+
+LoadGraph marvel marvel.tsv
+
+FindPath marvel HUMAN_ROBOT STACY,_HELEN

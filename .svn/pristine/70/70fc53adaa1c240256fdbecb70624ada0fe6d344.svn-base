@@ -1,0 +1,38 @@
+package hw8;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Map;
+
+public class BuildingParser {
+	public static void parseData(String filename,
+			Map<String, String> shortToFull, Map<String, Node> coordinate, Map<Node,String> coorToName)
+			throws Exception {
+		BufferedReader reader = null;
+		try {
+			reader = new BufferedReader(new FileReader(filename));
+			String inputLine;
+			while ((inputLine = reader.readLine()) != null) {
+				String[] tokens = inputLine.split("\t");
+				if (tokens.length != 4) {
+					throw new Exception("Line should contain exactly one tab: "
+							+ inputLine);
+				}
+				String shortName = tokens[0];
+				String fullName = tokens[1];
+				shortToFull.put(shortName, fullName);
+				Node position = new Node(Double.parseDouble(tokens[2]),Double.parseDouble(tokens[3]));
+				coordinate.put(shortName, position);
+				coorToName.put(position, shortName);
+			}
+		} catch (IOException e) {
+			System.err.println(e.toString());
+			e.printStackTrace(System.err);
+		} finally {
+			if (reader != null) {
+				reader.close();
+			}
+		}
+	}
+}

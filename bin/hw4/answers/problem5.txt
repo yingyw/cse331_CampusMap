@@ -1,0 +1,7 @@
+//Yingying Wang
+//CSE331 HW4
+//SECTION AB
+3*x^3+4*x^2+3*x+3
+5*x^2+5*x
+x^3
+x^4+x^3+x^2+x

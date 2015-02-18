@@ -1,0 +1,6 @@
+//Yingying Wang
+//1127423
+//Section AB
+a. Fibonacci fail the testThrowsIllegalArgumentException test since we should throw exception when index n is negative, that is n<0. But it throws exception when n<=0, so it fails the test. I changed if condition to n<0 from n<=0.
+b. The base case of Fibonacci should be 1 for n=0 and n=1. So when we set up the base case, we should set numbers in index n<2 to be 1. But in original Fibonacci code, it set numbers in index n<=2 to be 1. when n=2, it should return 1+1=2 instead of 1. So it fail the test. I changed the if condition to n<2 from n<=2.
+c. Fibonacci fail the testInductiveCase because every Fibonacci number should be sum of two numbers just before itself(except the first and second number). In its original code, it makes every Fibonacci number be difference of two numbers just before itself, so it fails the test. I changed the "-" to "+" to make it become the sum of two numbers before itself.

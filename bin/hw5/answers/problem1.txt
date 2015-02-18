@@ -1,0 +1,33 @@
+ Yingying Wang
+ 1127423
+ Section AB
+
+a. 1. IntQueue1
+	  Abstraction function: 
+	  	The last element pushed to the queue is on back of queue(end of linkedList),
+	  	The first element pushed to the queue is at front of queue(front of linkedList),
+	  	We pop the element that at the front of queue(front of queue).
+	  Rep invariants:
+	  	entries != null
+	  	All the elements in entries != null
+   2. IntQueue2
+   	  Abstraction function:
+   	  	The last element enqueued to the queue is on back of queue = entries[(front+size)%entries.length]
+   	  	The first element enqueued to the queue is on the front of queue = entries[front]
+   	  	We dequeue the element on the front of queue = entries[front]
+   	  Rep invariants:
+   	  	entries != null
+   	  	All the elements in entries != null
+   	  	size>=0
+   	  	front>=0
+ b. [a, d, g]
+ 	[b, h]
+ 	[c, f]
+ 	[e]
+ 	
+ c. 1. This method will not expose the representation, because it returns a primitive type, so client cannot modify this.
+ 	2. This method possibly expose the representation, because it returns a data structure type, client could modify this String array using their code.
+ 	3. This method possibly expose the representation, although it's a private type method, if Date used as an internal field of this class, then client will possibly modify this.
+ 	4. This method will not expose the representation, because it returns a primitive type, so client cannot modify this.
+ 	5. This method possibly expose the representation, because if the iterator has a internal field being iterated on, client could modify this and change the behavior of the iterator.
+ 	6. This constructor possibly expose the representation, because it let representation equals to the cards directly instead of making of copy of it. In this way, the reference of representation is also the reference of cards. So it might expose representation.

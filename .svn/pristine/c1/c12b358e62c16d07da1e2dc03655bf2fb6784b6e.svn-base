@@ -1,0 +1,42 @@
+package hw7;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Set;
+
+import hw5.Graph;
+import hw6.MarvelPaths;
+
+public class MarvelPaths2 extends MarvelPaths {
+	
+	public static Graph<String,Double> loadGraph(String fileName){
+		Graph<String, Double> loadedGraph = new Graph<String, Double>();
+		Graph<String, String> oldGraph = MarvelPaths.buildGraph(fileName);
+		for(String start :oldGraph.getAllNodes()){
+			loadedGraph.addNode(start);
+			for(String end: oldGraph.getAllEnds(start)){
+				double numLabel = oldGraph.EdgeNumbers(start, end);
+				loadedGraph.addNode(end);
+				loadedGraph.addEdge(start, end, 1/numLabel);
+			}
+		}
+		return loadedGraph;
+	}
+	
+	public static List<String> findPath(Graph<String, Double> graph,String start, String end){
+		if(!graph.containsNode(start)||!graph.containsNode(end)){
+			throw new IllegalArgumentException();
+		}
+		PriorityQueue<Double> active = new PriorityQueue<Double>();
+		Set<String> finished = new HashSet<String>();
+		active.add(start);
+		while(!active.isEmpty()){
+			Double minPath = active.remove();
+			String minDest = f
+		}
+		
+		return null;
+		
+	}
+}

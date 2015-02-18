@@ -1,0 +1,6 @@
+#Find a path from a student to another student using the full studentsInClass dataset.
+
+loaded graph studentsInClass
+
+path from JERRY to WISH:
+total cost: 0.000

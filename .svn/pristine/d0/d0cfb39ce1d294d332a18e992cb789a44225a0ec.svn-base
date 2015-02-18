@@ -1,0 +1,87 @@
+package hw8;
+
+import hw5.Graph;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
+
+public class CampusMap {
+	public static final String building = "src/hw8/data/campus_buldings.dat";
+	public static final String paths = "src/hw8/campus_paths.dat";
+	public static Map<String, String> buildingsName;
+	public static Map<String,String> buildPos;
+	public static Graph<String,Double> map;
+	public static void main() throws Exception{
+		buildingsName = new TreeMap<String,String>();
+		buildPos = new HashMap<String,String>();
+		map = new Graph<String,Double>();
+		BuildingParser.parseData(building, buildingsName, buildPos);
+		PathsPaser.parseData(paths, map);
+		Scanner sc = new Scanner(System.in);
+		printMenu();
+		System.out.print("Enter an option ('m' to see the menu): ");
+		String input = sc.nextLine();
+		String option = getRealOption(input);
+		processOption(option);
+	}
+	
+
+	
+	private static void processOption(String option) {
+		if(option.equals("b")){
+			listBuilding();
+		}else if(option.equals("r")){
+			abbName();
+		}else if(option.equals("q")){
+			
+		}else if(option.equals("m")){
+			
+		}else{
+			System.out.println("Unkonwn option");
+		}
+		
+	}
+
+
+
+	private static void abbName() {
+		System.out.println("Abbreviated name of starting building: ");
+		Scanner scanner = new Scanner(System.in);
+		String start = scanner.nextLine();
+		System.out.println("Abbreviated name of ending building: ");
+		String end = scanner.nextLine();
+		
+	}
+
+
+
+	private static void printMenu(){
+		System.out.println("Menu:");
+		System.out.println("	r to find a route");
+		System.out.println("	b to see a list of all buildings");
+		System.out.println("	q to quit");
+		System.out.println();
+	}
+	
+	
+	private static String getRealOption(String input) {
+		if(input.startsWith("#")){
+			System.out.println(input);
+		}
+		return input.trim();
+	}
+	
+
+	private static void listBuilding() {
+		System.out.println("Buildings:");
+		for(String shortName: buildingsName.keySet()){
+			System.out.print(shortName+": ");
+			System.out.println(buildingsName.get(shortName));
+		}
+	}
+
+
+
+}

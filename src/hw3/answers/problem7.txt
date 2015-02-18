@@ -1,0 +1,9 @@
+//Yingying Wang
+//1127423
+//Section AB
+a. 1. the name of the filed and the name of the parameter is same, so it confused about using same name inside method. I changed "volume=volume" to "this.volume=volume". "this.volume" means the field, "volume" means the parameter, then it can figure it out which one we are using.
+   2. In getVolume method, it should returns the volume of the ball instead of 0. So I changed "return 0;" to "return volume"
+b. The second approach is better. Because the runtime of getVolume() is O(1) for second approach. And the runtime of getVolume() if O(n) for first method. And keep track of the total volume of the Balls can make the code be more easier and logical for me. If we need to add anothor method into it and this method also needs the total volume of balls, they can share the field and don't need to calculate the total volume again. 
+c. 1. One method is to make a new arraylist and using Collection.sort to sort the ball in arraylist from smallest volume to largest volume, and then returns arraylist.iterator.
+      Second method is to using priority queue instead of set to store balls. When we add each ball to the queue, it's already been sorted at this step. Then we only need to return it directly without sorting it at the point we need to do so.
+   2. I think the second method is better because the balls in the priority queue can be sorted when they are added to the queue, so when we need to pass them from smallest to largest, we can return it directly. If another method added in the class also needs all balls to be sorted, it also can use the priority queue directly instead of sorting it again.

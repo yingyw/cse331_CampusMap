@@ -1,0 +1,38 @@
+package hw9;
+
+import hw5.Graph;
+import hw8.BuildingParser;
+import hw8.Node;
+import hw8.PathsPaser;
+
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.JFrame;
+
+public class CampusMapMain {
+	
+	public static final String ALLBUILDINGS = "src/hw8/data/compus_buildings.dat";
+	public static final String PATHS = "src/hw8/data/campus_paths.dat";
+	
+	private static JFrame frame;
+	private static Map<String,String> shortToFull;
+	private static Map<String, Node> coordinate;
+	private static Map<Node,Map<Node,Double>> campusMap;
+	/**
+	 * 
+	 */
+	public static void main(String[] args){
+		shortToFull = new HashMap<String,String>();
+		campusMap = new HashMap<Node,Map<Node,Double>>();
+		coordinate = new HashMap<String,Node>();
+		frame = new JFrame("UW CAMPUS MAP");
+		try{
+			BuildingParser.parseData(ALLBUILDINGS, shortToFull, coordinate);
+			PathsPaser.parseData(PATHS, campusMap);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+
+}

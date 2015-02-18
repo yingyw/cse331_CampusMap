@@ -1,0 +1,6 @@
+# Find a path from a character to himself using the full Marvel dataset.
+
+loaded graph marvel
+
+path from HUMAN ROBOT to HUMAN ROBOT:
+total cost: 0.000

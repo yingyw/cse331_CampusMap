@@ -1,0 +1,20 @@
+#Test add edges to graph, each node as start point at least one time
+#and as end point for at least one time.
+# Create a graph
+CreateGraph graph1
+
+# Add many of nodes
+AddNode graph1 n1
+AddNode graph1 n2
+AddNode graph1 n3
+AddNode graph1 n4
+AddNode graph1 n5
+
+# Add many edges
+AddEdge graph1 n1 n2 e1
+AddEdge graph1 n1 n3 e13
+AddEdge graph1 n2 n3 e2
+AddEdge graph1 n2 n4 e24
+AddEdge graph1 n3 n4 e3
+AddEdge graph1 n4 n5 e4
+AddEdge graph1 n5 n1 e5

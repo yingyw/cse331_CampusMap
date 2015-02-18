@@ -1,0 +1,12 @@
+Model:
+	BuildingPaser.class
+	Node.class
+	PathsPaser.class
+	UWMap.class
+View:
+	CampusMap.class(except the line calling UWMap.findPath, the line calling private method findpath, and the line calling private method listBuildings)
+Controller:
+	the line in CampusMap.class calling UWMap.findPath 
+	the line in CampusMap.class calling private method findPath
+	the line in CampusMap.class calling private method listBuildings
+	

@@ -1,0 +1,120 @@
+//Yingying Wang
+//CSE331 HW4
+//SECTION AB
+a. r=p*q
+   foreach term tp, in p
+   	for each term tq, in q
+   		if any term, tr, in r has the same degree as product of tp and tq
+   			then replace tr in r with the tr+(tp*tq)
+   			else insert product of tp and tq into r as a new term
+ 
+ b. u=(q*v)+r
+ 	u/v
+ 	set upre = u;
+ 	while upre's largest degree is larger or equal to v's largest degree
+ 		set m_upre = term in upre with largest degree
+ 		set m_v = term in v with largest degree
+ 		insert a term t_q in q, t_q is result of m_upre/m_v
+ 		set temp be product of t_q and every term in v
+ 		foreach term t_t in temp
+ 			if any term t_upre in upre has same degree as t_t
+ 				then replace  t_upre in u by the difference of t_upre and t_t
+ 				else insert -t_t to upre 
+ 	set r = upre;	
+ 
+ c.(x^3+x-1) / (x+1) = x^2-x+2
+   u/v=q+r
+   u=(x^3+x-1)
+   v=(x+1)
+   upre=copy of u = (x^3+x-1)
+   while upre's largest degree is larger or equal to v's largest degree
+   		Iteration 1:  m_upre = x^3, m_v = x
+   					  [insert a term t_q in q, t_q is result of m_upre/m_v]
+   					  t_q = x^3/x=x^2
+   					  q=x^2
+   					  [set temp be product of t_q and every term in v]
+   					  temp = x^2(x+1) = x^3 + x^2
+   					  [foreach term t_t in temp]
+   					  Iteration 1: 
+   					  	t_t = x^3
+   					  	[if any term t_upre in upre has same degree as t_t]
+   					  	YES, t_upre = x^3
+   					  	[then replace  t_upre in upre by the difference of t_upre and t_t]
+   					  	t_upre = x^3-x^3 = 0;
+   					  	upre = x-1;
+   					  Iteration 2:
+   					  	t_t = x^2
+   					  	[if any term t_upre in upre has same degree as t_t]
+   					  	NO
+   					  	[else insert -t_t to upre]
+   					  	upre = -x^2+x-1
+   		Iteration 2: m_upre = -x^2, m_v=x
+   					[insert a term t_q in q, t_q is result of m_upre/m_v]
+   					t_q = -x^2/x = -x
+   					q = x^2 - x
+   					[set temp be product of t_q and every term in v]
+   					temp = -x*(x+1)
+   						 = -x^2 - x
+   					[foreach term t_t in temp]
+   					Iteration 1:
+   						t_t = -x^2
+   						[if any term t_upre in upre has same degree as t_t]
+   						Yes, t_upre = -x^2
+   						[then replace  t_upre in upre by the difference of t_upre and t_t]
+   						t_upre = -x^2-(-x^2) = 0
+   						upre = x-1
+   					Iteration 2:
+   						t_t = -x
+   						[if any term t_upre in upre has same degree as t_t]
+   						YES, t_upre = x
+   						[then replace  t_upre in upre by the difference of t_upre and t_t]
+   						t_upre = x-(-x)=2x
+   						upre = 2x-1
+   		Iteration3: m_upre = 2x, m_v = x
+   					[insert a term t_q in q, t_q is result of m_upre/m_v]
+   					t_q= 2x/x = 2
+   					q = x^2 - x + 2
+   					[set temp be product of t_q and every term in v]
+   					temp = 2*(x+1)
+   						 = 2x+2
+   					[foreach term t_t in temp]
+   					Iteration 1:
+   						t_t = 2x
+   						[if any term t_upre in upre has same degree as t_t]
+   						YES,t_upre = 2x;
+   						[then replace  t_upre in upre by the difference of t_upre and t_t]
+   						t_upre=2x-2x=0
+   						upre = -1;
+   					Iteration 2:
+   						t_t=2
+   						[if any term t_upre in upre has same degree as t_t]
+   						Yes, t_upre = -1
+   						[then replace  t_upre in upre by the difference of t_upre and t_t]
+   						t_upre = -1-2 = -3
+   						upre = -3;
+   		[while upre's largest degree is larger or equal to v's largest degree]
+   		No, degree of -3 is smaller than degree of x
+   		r = -3
+   		We are done!
+   		(x^3+x-1)/(x+1)=(x^2 - x + 2)-3
+   					
+   					
+   		
+   					
+   						 
+   					
+   					
+   					
+   					  
+   					  
+   					  
+   					  
+   					  
+   					  
+   					  
+   					  
+   					  
+   					  
+   					  
+   					  
+ 

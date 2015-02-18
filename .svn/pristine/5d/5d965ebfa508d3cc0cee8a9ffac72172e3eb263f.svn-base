@@ -1,0 +1,25 @@
+package hw8;
+
+import java.util.Scanner;
+
+public class CampusMap {
+	public static void main(){
+		Scanner sc = new Scanner(System.in);
+		printMenu();
+		System.out.print("Enter an option ('m' to see the menu): ");
+		String input = sc.nextLine();
+		//String option = getRealOption(input);
+	}
+	
+	private static void printMenu(){
+		System.out.println("Menu:");
+		System.out.println("	r to find a route");
+		System.out.println("	b to see a list of all buildings");
+		System.out.println("	q to quit");
+		System.out.println();
+	}
+	
+	//private static String getRealOption(String option){
+		
+	//}
+}

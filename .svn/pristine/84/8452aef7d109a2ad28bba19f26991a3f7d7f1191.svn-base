@@ -1,0 +1,129 @@
+package hw7.test;
+
+import static org.junit.Assert.*;
+import hw5.Graph;
+import hw7.MarvelPaths2;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
+import org.junit.Before;
+import org.junit.Test;
+
+public class TestMarvelPaths2 {
+private static Graph<String, Double> graphTest;
+	
+	@Before
+	public void setUp(){
+		graphTest = new Graph<String, Double>();
+	}
+	/**TestThrowException==========================================================================================*/
+	@Test(expected = IllegalArgumentException.class)
+	public void testPassIntoAStartCharNotInsideGraph(){
+		graphTest.addNode("B");
+		MarvelPaths2.findPath(graphTest,"A","B");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testPassIntoAEndCharNotInsideGraph(){
+		graphTest.addNode("A");
+		MarvelPaths2.findPath(graphTest,"A","B");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testAllPassedCharsNotInsideGraph(){
+		MarvelPaths2.findPath(graphTest,"A","B");
+	}
+	
+	/**TestFindShortestPath==========================================================================================*/
+	@Test
+	public void testFindShortestPath(){
+		graphTest.addNode("A");
+		graphTest.addNode("B");
+		graphTest.addNode("C");
+		graphTest.addNode("D");
+		graphTest.addNode("E");
+		graphTest.addNode("F");
+		graphTest.addNode("G");
+		graphTest.addNode("H");
+		graphTest.addEdge("A", "B", 1.1);
+		graphTest.addEdge("B", "C", 1.2);
+		graphTest.addEdge("C", "D", 1.3);
+		graphTest.addEdge("D", "E", 1.4);
+		graphTest.addEdge("E", "F", 1.5);
+		graphTest.addEdge("F", "G", 1.6);
+		graphTest.addEdge("G", "H", 1.7);
+		graphTest.addEdge("A", "D", 1.8);
+		graphTest.addEdge("D", "H", 1.9);
+		List<String> actual = new ArrayList<String>();
+		actual.add("3.7");
+		actual.add("A");
+		actual.add("D");
+		actual.add("H");
+		assertEquals(actual,MarvelPaths2.findPath(graphTest, "A", "H"));
+	}
+	
+	@Test
+	public void testNoPathBetweenTwoGivenChar(){
+		graphTest.addNode("A");
+		graphTest.addNode("B");
+		assertEquals(null, MarvelPaths2.findPath(graphTest, "A", "B"));
+	}
+	
+	@Test
+	public void testChooseLeastCostPathLabel(){
+		graphTest.addNode("A");
+		graphTest.addNode("B");
+		graphTest.addEdge("A", "B", 1.1);
+		graphTest.addEdge("A", "B", 1.2);
+		graphTest.addEdge("A", "B", 1.3);
+		graphTest.addEdge("A", "B", 1.4);
+		graphTest.addEdge("A", "B", 1.5);
+		List<String> nodes = MarvelPaths2.findPath(graphTest, "A", "B");		
+		String actual =nodes.get(0);
+		String expected = "1.1";
+		assertEquals(expected,actual);
+	}
+	
+	@Test
+	public void testCostLeastPathNode(){
+		graphTest.addNode("A");
+		graphTest.addNode("B");
+		graphTest.addNode("C");
+		graphTest.addNode("D");
+		graphTest.addNode("E");
+		graphTest.addNode("F");
+		graphTest.addEdge("A", "B", 1.1);
+		graphTest.addEdge("B", "C", 1.1);
+		graphTest.addEdge("C", "D", 1.1);
+		graphTest.addEdge("D", "E", 1.1);
+		graphTest.addEdge("E", "F", 1.1);
+		graphTest.addEdge("A", "D", 1.1);
+		graphTest.addEdge("A", "D", 1.1);
+		graphTest.addEdge("D", "F", 1.2);
+		graphTest.addEdge("B", "F", 1.3);
+		String expectedNode = "2.3";
+		List<String> actualNodes = MarvelPaths2.findPath(graphTest, "A", "F");	
+		assertEquals(expectedNode,actualNodes.get(0));
+	}
+	/**TestBuildGraph==========================================================================================*/
+	@Test
+	public void testBuildGraph(){
+		graphTest = MarvelPaths2.loadGraph("src/hw6/data/implementTest.tsv");
+		Set<String> allNodes = graphTest.getAllNodes();
+		Set<String> actual = new TreeSet<String>();
+		for(String s: allNodes){
+			actual.add(s);
+		}
+		Set<String> expected = new TreeSet<String>();
+		expected.add("A");
+		expected.add("B");
+		expected.add("C");
+		expected.add("D");
+		assertEquals(expected,actual);
+	}
+
+
+}

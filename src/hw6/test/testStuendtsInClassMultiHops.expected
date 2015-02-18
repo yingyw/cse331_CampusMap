@@ -1,0 +1,9 @@
+#Find a path from a student to another student using the full studentsInClass dataset.
+
+loaded graph studentsInClass
+
+path from YINGYING to BILL:
+YINGYING to TIANHUI via CSE331
+TIANHUI to XINYI via ARCH151
+XINYI to ELLE via EE331
+ELLE to BILL via EE471

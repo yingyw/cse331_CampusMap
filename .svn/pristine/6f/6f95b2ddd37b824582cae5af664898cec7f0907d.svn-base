@@ -1,0 +1,39 @@
+package hw8;
+import hw5.Graph;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class PathsPaser {
+	public static void parseData(String filename, Graph<String,Double> paths)
+			throws Exception {
+		BufferedReader reader = null;
+		try {
+			reader = new BufferedReader(new FileReader(filename));
+			String inputLine = reader.readLine();
+			String start = inputLine;
+			paths.addNode(start);
+			while ((inputLine = reader.readLine()) != null) {
+				if(!inputLine.startsWith("\t")){
+					start = inputLine;
+					paths.addNode(start);
+				}else{
+					String[] tokens = inputLine.split(":");
+					if(tokens.length!=2){
+						throw new Exception();
+					}
+					String end = tokens[0].trim();
+					paths.addEdge(start, end, Double.parseDouble(tokens[1]));
+				}
+				
+			}
+		} catch (IOException e) {
+			System.err.println(e.toString());
+			e.printStackTrace(System.err);
+		} finally {
+			if (reader != null) {
+				reader.close();
+			}
+		}
+	}
+}

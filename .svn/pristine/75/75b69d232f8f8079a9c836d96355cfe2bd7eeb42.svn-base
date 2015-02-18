@@ -1,0 +1,271 @@
+package hw5;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
+public class Graph<E, T> {
+	private final HashMap<E,HashMap<E,List<T>>> graph;
+	/**
+	 * Yingying Wang
+	 * 1127423
+	 * Section AB
+	 */
+	/**
+	 * This class represent a graph contains unique nodes inside, and there could be one
+	 * or more edges between two nodes. And edge has its own label. Edges between a pair of
+	 * nodes must have different labels.
+	 */
+	 // Abstraction Function:
+	 // Each element of a graph, node, maps to HashMap<String end,ArrayList<String> s>
+	 // For this internal map, set the String end as keys and set an arrayList which is
+	 // a collection of edges labels(labels of edges from start-point(the corresponding key
+	 //  of outer map) to end-point(the corresponding key of internal map)) to be the value. 
+      
+     // Representation invariant for every graph g:
+     //  graph cannot be null
+     //  node in graph cannot be null
+     //  labels of edge cannot be null
+	
+	/**
+	 * creates a new empty graph 
+	 */
+	private int checkRep;
+	public Graph() {
+		checkRep = 100;
+		graph = new HashMap<E,HashMap<E,List<T>>>();
+		checkRep();
+	}
+	/**
+	 * If the given node is not in graph, add it into graph
+	 * throws exception if given node is null
+	 *@param a single node need to be added in the graph
+	 *@requires node != null
+	 *@modifies graph
+	 *@effects added a new node into the graph
+	 */
+	public void addNode(E node){
+		if(!containsNode(node)){
+			graph.put(node, new HashMap<E,List<T>>());
+		}
+		if(graph.size()<=checkRep){
+			checkRep();
+		}
+	}
+	
+	
+	/**
+	 * Add a new edge from given starting node to ending node
+	 * If there is edge from given start to end labeled as given
+	 * label, we would not add the edge with given label again.
+	 * And this method allows edge start from a node and end up with 
+	 * same node.throws exception if given nodes are not inside
+	 * graph or given node and label is null
+     *@param a single node as a starting point of a route
+     *@param a single node as a ending point of a route
+     *@requires node start and node end are contained in graph && 
+     *			start!=null && end !=null && label!=null
+     *@modifies graph
+     *@effects add a new route from start to end
+	 */
+	public void addEdge(E start, E end, T label){
+		if(!graph.containsKey(start) ||!graph.containsKey(end)){
+			throw new IllegalArgumentException();
+		}
+		if(!graph.get(start).containsKey(end)){
+			graph.get(start).put(end, new ArrayList<T>());
+		}else if(graph.get(start).get(end).contains(label)){
+			return;
+		}
+		graph.get(start).get(end).add(label);
+		if(graph.size()<=checkRep){
+			checkRep();
+		}
+	}
+	
+	/** 
+	 *If given node is in the graph, remove it from graph
+	 *If one node is removed, all edges related to it must be
+	 *removed. throws exception if given node is not inside graph
+	 *or given nodes are null
+	 *If given node is not in the graph, throws exception
+	 *@param a single node which need to be removed from graph
+	 *@requires node!=null and graph.contains(node)
+	 *@modifies graph
+	 *@effects one node being removed out of the graph
+	 */
+	public void removeNode(E node){
+		if(!graph.containsKey(node) || node ==null){
+			throw new IllegalArgumentException();
+		}
+		graph.remove(node);
+		for(E start:graph.keySet()){
+			for(E end:graph.get(start).keySet()){
+				if(end.equals(node)){
+					graph.get(start).remove(end);
+				}
+			}
+		}
+		if(graph.size()<=checkRep){
+			checkRep();
+		}
+	}
+	
+	/**
+	 *If there is an edge from given starting node to ending node and in given label, 
+	 *remove it from graph,throws exception if given nodes and label are null or given
+	 *nodes are not inside graph
+	 *@param a single node as starting point of a route that will be removed
+	 *@param a single node as ending point of a route that will be removed
+	 *@param a label of a route that will be removed
+	 *@requires start!=null && end!=null && label!=null && given nodes and label
+	 *    		are contained inside graph
+	 *@modifies graph
+	 *@effects a edge from given start node to ending node that in given label being removed
+	 */
+	public void removeEdge(E start, E end,T label){	
+		if(label==null){
+			throw new IllegalArgumentException();
+		}
+		if(checkEdge(start, end)){//throws exception if start and end are null or not inside graph
+			graph.get(start).get(end).remove(label);
+		}else{
+			throw new IllegalArgumentException();
+		}
+		if(graph.get(start).get(end).size()==0){
+			graph.get(start).remove(end);
+		}
+		if(graph.size()<=checkRep){
+			checkRep();
+		}
+	}
+	
+	/**
+	 *check if there is a edge from start to end
+	 *returns true if there is a route from start to end,returns false otherwise
+	 *throws exception if given nodes are null or not contained in graph
+	 *@param a single node as starting point
+	 *@param a single node as ending point
+	 *@requires start!=null && end!=null && start and end are contained in graph
+	 *@returns return true if there is a route between node1 and node2, return false otherwise
+	 */
+	public boolean checkEdge(E start, E end){
+		if(start == null || end==null){
+			throw new IllegalArgumentException();
+		}
+		boolean result = false;
+		if(graph.containsKey(start) && graph.get(start).containsKey(end)){
+				 result = true;
+		}
+		return result;
+	}
+	
+	/**
+	 *returns a set of nodes that are ending points of routes that starts at given node
+	 *throws exception if given node is null or it's not inside graph
+	 *@param a single node as starting point
+	 *@requires node!=null and start node is contained in graph
+	 *@returns a list of nodes that are ending points of route starting from given node
+	 */
+	public Set<E> getAllEnds(E start){
+		if(start == null || !graph.containsKey(start)){
+			throw new IllegalArgumentException();
+		}
+		Set<E> result = new TreeSet<E>(); // make a copy of return result, return copy to avoid expose
+		for(E node: graph.get(start).keySet()){
+			result.add(node);
+		}
+		return result;
+	}
+	/**
+	 *returns a set of nodes that are in graph
+	 *@requires graph!=null
+	 *@returns a set of graph node inside graph
+	 */
+	public Set<E> getAllNodes(){
+		Set<E> result = new HashSet<E>();// make a copy of return result, return copy to avoid expose
+		for(E node: graph.keySet()){
+			result.add(node);
+		}
+		return result;
+	}
+	
+	
+	/**
+	 *returns a number of edges that start from given starting node to given ending node
+	 *throws exception if given nodes are null or not contained in graph
+	 *@param a single node as starting point
+	 *@param a single node as ending point
+	 *@requires start!=null && end!=null && start and end are contained in graph
+	 *@returns the number of edges that start from starting node to ending node
+	 */
+	public int EdgeNumbers(E start, E end){
+		int edgeNum = getAllLabels(start,end).size();
+		return edgeNum;
+	}
+	
+	/**
+	 * returns a set of edge labels from given startPoint to given endPoint
+	 * throws exception if given nodes are null or not contained in graph
+	 *@param a single node as starting point
+	 *@param a single node as ending point
+	 *@requires start!=null && end!=null && start and end are contained in graph
+	 *@returns returns a set of edge labels from given startPoint to given endPoint
+	 */
+	public Set<T> getAllLabels(E start, E end){
+		if(start==null||end==null||!graph.containsKey(start)||!graph.containsKey(end)){
+			throw new IllegalArgumentException();
+		}
+		Set<T> result = new TreeSet<T>();
+		if(graph.get(start).containsKey(end)){
+			for(T label: graph.get(start).get(end)){
+				result.add(label);
+			}
+		}
+		return result;
+	}
+	/**
+	 * check whether given node is inside the graph
+	 * throws exception if given node is null
+	 * @param a single node to be check
+	 * @return true if given node is contained in graph,
+	 * 		   return false otherwise
+	 * @requires given node != null
+	 */
+	public boolean containsNode(E node){
+		if(node==null){
+			throw new IllegalArgumentException();
+		}
+		if(graph.containsKey(node)){
+			return true;
+		}
+		return false;
+	}
+	
+	 /**
+	   * Checks that the representation invariant holds (if any).
+	   */
+	  // Throws a RuntimeException if the representation invariant is violated.
+	private void checkRep(){
+		if(graph==null){
+			throw new RuntimeException("graph == null");
+		}
+		if(graph.containsKey(null)){
+			throw new RuntimeException("start == null");
+		}
+		for(E start: graph.keySet()){
+			for(E end: graph.get(start).keySet()){
+				if(graph.get(start).keySet().contains(null)){
+					throw new RuntimeException("end == null");
+				}
+				if (graph.get(start).get(end).contains(null)){
+					throw new RuntimeException("label == null");
+				}
+			}
+		}
+		
+	}
+}

@@ -1,0 +1,3 @@
+changes in Graph.class
+
+1. I make a field used to control checkRep(). CheckRep costs a lot of time when we build a graph with large data. So I run checkRep() when graph with less than 100 nodes inside. And if there is more than 100 nodes inside graph, I will not run checkRep(). So when input large data, we don't waste a lot of time on checkRep(). 

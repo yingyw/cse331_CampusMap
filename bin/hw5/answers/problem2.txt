@@ -1,0 +1,149 @@
+ Yingying Wang
+ 1127423
+ Section AB
+Set the graph as a Map, Map<String, hashMap<String, list>>
+Create a Map, using start-point as keys and another map as value
+for the internal map, set the end-point as keys and set a list
+of labels(labels for the edges from start-point to end-point) as
+the value.
+
+addNode(String node): I include this method because we need nodes in graph, and when we add edges we also need add node into it. The graph is empty when created, so we need add more nodes into it let it as the real graph
+addEdge(String start, String end, String label): I include this method because we are asked to link nodes in graph with directions
+removeNode(String node): If a node in graph is not needed anymore, we can remove that node
+removeEdge(String start, String end,String label): if there is a edge we don't need it anymore, or it's a wrong edge, we can remove it
+boolean checkEdge(String start, String end): to check if there is a directed relation between two nodes, it helps to know if we can from one point to another point directly
+Set<String> getAllEnds(String start): get all nodes that have direct route from one node, it helps to find all destinations
+Set<String> getAllNodes(): find all nodes inside the graph, it helps to find the size of graph
+int EdgeNumbers(String start, String end): check how many routes from given start point to end point, it helps to find how many routes between two nodes
+Set<String> getAllLabels(String start, String end): get all labels of routes that can go from start point to end point, it helps to check all the ways from start point to end point
+boolean containsNode(String node): check whether the given node is inside graph, it would be easier for people to add edges or add nodes. Before adding, we can check whether the node is inside the graph or not.
+I didn't include other class. Initially I include a node class which holds node's name. But it's unnecessary to do it for now, we can only use String as a node because a node only has its own String name and no other stuff.
+
+//Creates a new empty graph
+@effects: Constructs a new empty graph
+graph():
+	Map<startNode, hashTable<endNode, label>>
+
+	/**
+	 * If the given node is not in graph, add it into graph
+	 * throws exception if given node is null
+	 *@param a single node need to be added in the graph
+	 *@requires node != null
+	 *@modifies graph
+	 *@effects added a new node into the graph
+	 */
+	addNode(String node)
+
+	/**
+	 * Add a new edge from given starting node to ending node
+	 * If there is edge from given start to end labeled as given
+	 * label, we would not add the edge with given label again.
+	 * And this method allows edge start from a node and end up with 
+	 * same node.throws exception if given nodes are not inside
+	 * graph or given node and label is null
+     *@param a single node as a starting point of a route
+     *@param a single node as a ending point of a route
+     *@requires node start and node end are contained in graph && 
+     *			start!=null && end !=null && label!=null
+     *@modifies graph
+     *@effects add a new route from start to end
+	 */
+	addEdge(String start, String end, String label)
+
+	/** 
+	 *If given node is in the graph, remove it from graph
+	 *If one node is removed, all edges related to it must be
+	 *removed. throws exception if given node is not inside graph
+	 *or given nodes are null
+	 *If given node is not in the graph, throws exception
+	 *@param a single node which need to be removed from graph
+	 *@requires node!=null and graph.contains(node)
+	 *@modifies graph
+	 *@effects one node being removed out of the graph
+	 */
+	removeNode(String node)
+
+
+	/**
+	 *If there is an edge from given starting node to ending node and in given label, 
+	 *remove it from graph,throws exception if given nodes and label are null or given
+	 *nodes are not inside graph
+	 *@param a single node as starting point of a route that will be removed
+	 *@param a single node as ending point of a route that will be removed
+	 *@param a label of a route that will be removed
+	 *@requires start!=null && end!=null && label!=null && given nodes and label
+	 *    		are contained inside graph
+	 *@modifies graph
+	 *@effects a edge from given start node to ending node that in given label being removed
+	 */
+	removeEdge(String start, String end,String label)	
+
+
+	/**
+	 *check if there is a edge from start to end
+	 *returns true if there is a route from start to end,returns false otherwise
+	 *throws exception if given nodes are null or not contained in graph
+	 *@param a single node as starting point
+	 *@param a single node as ending point
+	 *@requires start!=null && end!=null && start and end are contained in graph
+	 *@returns return true if there is a route between node1 and node2, return false otherwise
+	 */
+	boolean checkEdge(String start, String end)
+	
+	/**
+	 *returns a set of nodes that are ending points of routes that starts at given node
+	 *throws exception if given node is null or it's not inside graph
+	 *@param a single node as starting point
+	 *@requires node!=null and start node is contained in graph
+	 *@returns a list of nodes that are ending points of route starting from given node
+	 */
+	Set<String> getAllEnds(String start)
+	
+	/**
+	 *returns a set of nodes that are in graph
+	 *@requires graph!=null
+	 *@returns a set of graph node inside graph
+	 */
+	Set<String> getAllNodes()
+	
+	/**
+	 *returns a number of edges that start from given starting node to given ending node
+	 *throws exception if given nodes are null or not contained in graph
+	 *@param a single node as starting point
+	 *@param a single node as ending point
+	 *@requires start!=null && end!=null && start and end are contained in graph
+	 *@returns the number of edges that start from starting node to ending node
+	 */
+	int EdgeNumbers(String start, String end)
+	
+	/**
+	 * returns a set of edge labels from given startPoint to given endPoint
+	 * throws exception if given nodes are null or not contained in graph
+	 *@param a single node as starting point
+	 *@param a single node as ending point
+	 *@requires start!=null && end!=null && start and end are contained in graph
+	 *@returns returns a set of edge labels from given startPoint to given endPoint
+	 */
+	Set<String> getAllLabels(String start, String end)
+	
+	/**
+	 * check whether given node is inside the graph
+	 * throws exception if given node is null
+	 * @param a single node to be check
+	 * @return true if given node is contained in graph,
+	 * 		   return false otherwise
+	 * @requires given node != null
+	 */
+	boolean containsNode(String node)
+
+
+	// Throws a RuntimeException if the rep invariant is violated.
+	/**
+	 * Checks that the representation invariant holds (if any).
+     */
+	public void checkRep(){
+
+
+
+
+	

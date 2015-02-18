@@ -1,0 +1,8 @@
+# Find a path with three "hop" (edge) using the full Marvel dataset.
+
+loaded graph marvel
+
+path from HUMAN ROBOT to STACY, HELEN:
+HUMAN ROBOT to 3-D MAN/CHARLES CHAN via AVF 4
+3-D MAN/CHARLES CHAN to SPIDER-MAN/PETER PAR via COC 1
+SPIDER-MAN/PETER PAR to STACY, HELEN via S-M -1

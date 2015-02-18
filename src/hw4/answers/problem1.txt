@@ -1,0 +1,20 @@
+//Yingying Wang
+//CSE331 HW4
+//SECTION AB
+a. Methods or constructor needed to be changed
+   1. constructor
+   	  reduce ratio to lowest terms part should be deleted, less complex
+   2. checkRep
+   	  gcd checked part should be deleted, less complex
+   3. toString
+   	  this method needs to output fractions in reduced form, adding code to make it to reduced form, more complex
+   4. equals
+   	  reducing form is needed before checking equality, more complex
+   5. hashCode
+   	  when hash code need to check two objects are equal or not it needs to use method equals, so as mentioned in equals it needs reduced form to check equailiy, more complex
+b. 1. every specification values changes should be mentioned in @modifies as postcondition. variables numer and denom are specification values. So when we change numer and demon it should be mentioned in @modified part. However, there is no such thing in comments. So it fails.
+   2. If we implement those code into methods. The variables numer and demon will be changed. So we need to check validation of those changed variables, using checkRep(). However it doesn't check it in method, so it fails.
+c. When we create a new object ratNum, it's immutable, all of fields are final, this means we would not able to change it after creating a object. Therefore, the representation invariant is also true.
+
+   	  
+   	  

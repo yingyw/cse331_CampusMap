@@ -1,0 +1,147 @@
+package hw6;
+
+import hw5.Graph;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Scanner;
+import java.util.Set;
+
+public class MarvelPaths {	
+	
+	private static Graph graph;
+	public static void main(String[] args) throws Exception{
+		graph = new Graph();
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter the name of Marvel file");
+		String fileName = sc.nextLine();
+		graph = buildGraph(fileName);
+		System.out.println("Starting character");
+		String startChar = sc.nextLine();
+		System.out.println("Ending character");
+		String endChar = sc.nextLine();		
+		String start = startChar.replace('_', ' ');
+		String end = endChar.replace('_', ' ');
+		  if(!graph.containsNode(start) || !graph.containsNode(end)){
+			  if(!graph.containsNode(start)){
+				  System.out.println("unknown character "+startChar);
+			  }
+			  if(!graph.containsNode(end)){
+				  System.out.println("unknown character "+endChar);
+			  }
+		  }
+		  System.out.println("path from "+ start+ " to " + end+":");
+		  List<String> paths = MarvelPaths.shortestPath(graph, start, end);
+		  if (paths == null){
+			  System.out.print("no path found");
+
+		  }else{
+			  for(int i=1; i<paths.size();i++){
+				  System.out.print(paths.get(i-1));
+				  System.out.print(" to ");
+				  System.out.print(paths.get(i)); 
+				  System.out.print(" via ");
+				  Set<String> labels = graph.getAllLabels(paths.get(i-1), paths.get(i));
+				  String label = labels.iterator().next();
+				  System.out.print(label);
+				  System.out.println();
+			  }
+	  	  }
+		sc.close();
+	}
+	
+	
+	/**
+	 * Use data in file with given filename to create a graph
+	 * @param name of file that used to construct the graph
+	 * @throws IOException if there is an error in reading file
+	 * @return a graph built by data in a file with given file name
+	 */
+	public static Graph buildGraph(String filename){
+		Set<String> characters = new HashSet<String>();
+		Map<String, List<String>> books = new HashMap<String, List<String>>();
+		try{
+			MarvelParser.parseData(filename, characters, books);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return buildGraph(characters, books);
+	}
+	/**
+	 * add each characters as node into graph and add edge to each 
+	 * pair of nodes, use name of book that both two characters inside
+	 * as edge label.
+	 * @param a set of characters name
+	 * @param a map that key is the book name, and value is all characters
+	 * 		  inside the book
+	 * @effects add all characters into graph, and add edge between each pair
+	 * @modifies graph
+	 * @return a graph contains all characters of given set, and edges between 
+	 * 		   each pair of characters
+	 */
+	private static Graph buildGraph(Set<String> characters, Map<String, List<String>> books){
+		Graph graph = new Graph();
+		for(String c: characters){
+			graph.addNode(c);
+		}
+		for(String book: books.keySet()){
+			List<String> chars = books.get(book);
+			for(String start: chars){
+				for(String end: chars){
+					if(!end.equals(start)){
+						graph.addEdge(start, end, book);
+					}
+				}
+			}
+		}
+		return graph;
+		
+	}
+	
+	/**
+	 * finds the shortest path from given start node to given end node,
+	 * if there are more than one paths with same length, sort them alphabetically.
+	 * @param start node used to find path
+	 * @param end node used to find path
+	 * @throws IllegalArgumentException if given nodes are not inside graph
+	 * @return List contains passed node of shortest path from given start node 
+	 * 		   to end node
+	 */
+	public static List<String> shortestPath(Graph graph,String start, String end){
+		if(!graph.containsNode(start)||!graph.containsNode(end)){
+			throw new IllegalArgumentException();
+		}
+		Queue<String> characters = new LinkedList<String>();
+		Map<String, List<String>> path = new HashMap<String, List<String>>();
+		characters.add(start);
+		List<String> initial = new ArrayList<String>();
+		initial.add(start);
+		path.put(start, initial);
+		while(!characters.isEmpty()){
+			String last = characters.poll();
+			if(last.equals(end)){
+				return path.get(last);
+			}
+			Set<String> children = graph.getAllEnds(last);
+			if(children != null){
+				for(String child: children){
+					if(!path.containsKey(child)){
+						List<String> append = new ArrayList<String>();
+						for(String node: path.get(last)){
+							append.add(node);
+						}
+						append.add(child);
+						path.put(child, append);
+						characters.add(child);
+					}
+				}
+			}
+		}
+		return null;
+	}
+}
